@@ -1,0 +1,43 @@
+ public void play(Field field){
+      
+      if(field.getTeam.get(this)== 1){
+        if((this.y > field.getFlag2Position()[1]) || (this.x > field.getFlag2Position()[0])){
+          speedX = -1 * (this.MAX_SPEED * Math.sin(Math.atan((field.getFlag2Position()[0]-this.x)/(field.getFlag2Position()[1] - this.y))));
+          speedY = -1 * (this.MAX_SPEED * Math.cos(Math.atan((field.getFlag2Position()[0]-this.x)/(field.getFlag2Position()[1] - this.y))));
+          
+          if(field.pickUpFlag(this)){
+            this.speedX = 0;
+            this.speedY = 0;
+          }
+        }
+        else{  
+          speedX = this.MAX_SPEED * Math.sin(Math.atan((field.getFlag2Position()[0]-this.x)/(field.getFlag2Position()[1] - this.y)));
+          speedY = this.MAX_SPEED * Math.cos(Math.atan((field.getFlag2Position()[0]-this.x)/(field.getFlag2Position()[1] - this.y))); 
+          
+          if(field.pickUpFlag(this)){
+            this.speedX = 0;
+            this.speedY = 0;
+          }
+        }
+      }
+      else if (field.getTeam.get(this)== 2){
+        if((this.y > field.getFlag1Position()[1]) || (this.x > field.getFlag1Position()[0])){
+          speedX = -1 *  (this.MAX_SPEED * Math.sin(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y))));
+          speedY = -1 *  (this.MAX_SPEED * Math.cos(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y))));
+          
+          if(field.pickUpFlag(this)){
+            this.speedX = 0;
+            this.speedY = 0;
+          }
+        }
+        else{  
+          speedX = this.MAX_SPEED * Math.sin(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y)));
+          speedY = this.MAX_SPEED * Math.cos(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y))); 
+          
+          if(field.pickUpFlag(this)){
+            this.speedX = 0;
+            this.speedY = 0;
+          }
+        }
+      }
+    }//ralton
