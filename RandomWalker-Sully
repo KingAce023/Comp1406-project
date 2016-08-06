@@ -1,0 +1,49 @@
+ public RandomWalker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+     super(f,side,name,number,team,symbol, x, y);
+       this.speedX = Math.random()*1000-2;
+    this.speedY = Math.random()*1000-2;
+  }
+  /*double newX =  this.x + this.dx;
+   double newY=  this.y + this.dy;
+    if(newX>WIDTH){
+            this.x= WIDTH -(newX-WIDTH) ;
+          this.dx=-this.dx;
+    }else if (newX<0){
+      this.x=-newX;
+       this.dx=-this.dx;
+    }else{
+     this.x+=this.dx;
+    }*/
+  
+   public void play(Field field){
+     if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+   
+      //this.setX(field.maxX - ( this.x-sprite.getWidth()) - field.maxX ) , this.id);
+      this.speedX = -this.speedX;
+    }
+    if(this.x+this.sprite.getWidth() + this.speedX< field.minX + this.sprite.getWidth()){ 
+      this.speedX = -this.speedX;
+    }
+   if (this.y + this.speedY + this.sprite.getHeight() > field.maxY){
+      this.speedY = -this.speedY;
+    }
+    if (this.y + this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){
+      this.speedY= - this.speedY;
+}
+    
+      
+   }
+     protected  void manageException(Field field){
+       if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+         this.setX(field.maxX - this.sprite.getWidth(), this.id);
+       }
+   if(this.x+this.sprite.getWidth() + this.speedX < field.minX + this.sprite.getWidth()){ 
+       this.setX(field.minX , this.id);
+   }
+   if(this.y+ (this.sprite.getHeight())+this.speedY >field.maxY){
+         this.setY(field.maxY - this.sprite.getHeight(), this.id);
+       }
+   if(this.y+this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){ 
+       this.setY(field.minY , this.id);
+   }
+}
