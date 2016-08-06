@@ -1,0 +1,28 @@
+
+  public void play(Field field){
+    if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX - this.sprite.getWidth()){
+       this.setSpeedX(0,this.id);
+      this.setSpeedY(0,this.id);
+       this.setX(field.maxX-this.sprite.getWidth(),this.id);
+       this.setY(this.y,this.id);
+    }
+   if(this.x+this.sprite.getWidth() + this.speedX< field.minX + this.sprite.getWidth()){
+      this.setSpeedX(0,this.id);
+      this.setSpeedY(0,this.id);
+      this.setX(field.minX,this.id);
+      this.setY(this.y,this.id);
+    }
+   if (this.y + this.speedY + this.sprite.getHeight() > field.maxY - this.sprite.getHeight()){
+     this.setSpeedY(0,this.id);
+     this.setSpeedX(0,this.id);
+     this.setY(field.maxY - this.sprite.getHeight(),this.id);
+     this.setX(this.x,this.id);
+   }
+   if (this.y + this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){
+     this.setSpeedY(0,this.id);
+     this.setSpeedX(0,this.id);
+     this.setY(field.minY,this.id);
+     this.setX(this.x,this.id);
+   }
+   //stopping class its not correct but it stops the balls at boundries
+   
