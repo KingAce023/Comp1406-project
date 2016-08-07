@@ -1,0 +1,126 @@
+import java.util.Random;
+
+public class Chaser2 extends Player{
+   
+  private double avgSpeed;  
+  
+  public Chaser2(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+    super(f, side, name, number, team, symbol, x, y);
+    Random rand = new Random();
+   
+    double tempSpeedX=(double) ((this.MAX_SPEED) * rand.nextDouble());
+    double tempSpeedY = (double) ((this.MAX_SPEED) * rand.nextDouble());
+
+   this.speedX = tempSpeedX;
+   this.speedY = tempSpeedY; 
+  
+   double tempX =0.0;
+   double tempY =0.0;
+   if ((tempSpeedX)<0){
+     tempX=-tempSpeedX;
+   }
+   else{
+     tempX = tempSpeedX; 
+   }
+   if (tempSpeedY<0){
+     tempY=-tempSpeedY;
+     
+   }
+   else{
+     tempY=tempSpeedY; 
+   }
+   
+   this.avgSpeed = (tempY+tempX)/2;
+
+  }
+  
+  
+    public void play(Field field){
+      if(field.getTeam.get(this) == 1){
+        
+      double newX = field.getTeam2().get(0).x - this.x;
+      
+      double newY =  field.getTeam2().get(0).y - this.y;
+      double speedX = Math.sin(Math.atan2(newX,newY))*this.avgSpeed;
+      double speedY = Math.cos(Math.atan2(newX,newY))*this.avgSpeed;
+      this.setSpeedX(speedX, this.id);
+      this.setSpeedY(speedY, this.id);
+      
+     if (this.catchOpponent((Player) field.getTeam2().get(0), field)){
+       
+        this.setSpeedX( field.getTeam2().get(0).speedX, this.id);
+        this.setSpeedY(field.getTeam2().get(0).speedY, this.id);
+     }
+        
+    }
+         
+    if (field.getTeam.get(this) == 2){
+      double newX = field.getTeam1().get(0).x - this.x;
+      double newY =field.getTeam1().get(0).y - this.y;
+
+      double speedX = Math.sin(Math.atan2(newX,newY))*this.avgSpeed;
+      //double speedX = Math.sin(Math.atan2(differenceX,differenceY))*this.MAX_SPEED;
+      
+      double speedY = Math.cos(Math.atan2(newX,newY))*this.avgSpeed;
+      //double speedY = Math.cos(Math.atan2(differenceX,differenceY))*this.MAX_SPEED;
+      
+        this.setSpeedX(speedX, this.id);
+      
+        this.setSpeedY(speedY, this.id);
+      
+     
+     if (this.catchOpponent((Player)field.getTeam1().get(0), field)){
+       
+        this.setSpeedX(field.getTeam1().get(0).speedX, this.id);
+        this.setSpeedY(field.getTeam1().get(0).speedY, this.id);
+        
+     }
+        
+    }
+    
+    if (this.speedX+this.x+this.sprite.getWidth() >= field.maxX ){
+      
+        this.speedX=-this.speedX; 
+    }
+      
+    if (this.speedX+this.x <= field.minX){
+    
+      this.speedX=-this.speedX;
+      
+    }
+    if (this.speedY+this.y+this.sprite.getHeight() >= field.maxY){
+      
+      this.speedY=-this.speedY;
+    
+    }
+    if (this.speedY+this.y <= field.minY){
+
+      this.speedY=-this.speedY;
+     
+    }    
+       
+  }
+       
+    
+    @Override
+    public void update(Field field){
+      
+    }
+      
+    
+
+     protected  void manageException(Field field){
+       if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+         this.setX(field.maxX - this.sprite.getWidth(), this.id);
+       }
+   if(this.x+this.sprite.getWidth() + this.speedX < field.minX + this.sprite.getWidth()){ 
+       this.setX(field.minX , this.id);
+   }
+   if(this.y+ (this.sprite.getHeight())+this.speedY >field.maxY){
+         this.setY(field.maxY - this.sprite.getHeight(), this.id);
+       }
+   if(this.y+this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){ 
+       this.setY(field.minY , this.id);
+   }
+}
+}
