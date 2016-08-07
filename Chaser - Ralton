@@ -9,26 +9,22 @@ public class Chaser extends Player{
     @Override
     public void play(Field field){
       if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
-        if((this.y > field.team2.get(0).y) && (this.x > field.team2.get(0).x)){
-          speedX = -1 *  (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
-          speedY = -1 *  (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
+        if(this.y < field.team2.get(0).y){
+          speedX = (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
+          speedY = (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
         }
-        else if((this.y > field.team2.get(0).y) && (this.x > field.team2.get(0).x)){
-          speedX = -1 * (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y))));
-          speedY = -1 * (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y))));
-        }
-        else if((this.y > field.team2.get(0).y) && (this.x > field.team2.get(0).x)){
-          speedX = (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y))));
-          speedY = (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y))));
-        }
-        else{  
-          speedX = this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y)));
-          speedY = this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y - this.y))); 
+        else if(this.y > field.team2.get(0).y){
+          if(this.x > field.team2.get(0).x){
+            speedX = -(this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
+            speedY = -(this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
+          }
+            speedX = (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
+            speedY = (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
         }
         
         if(this.catchOpponent((Player)field.team2.get(0),field)){
-          this.speedX = 0;
-          this.speedY = 0;
+          this.speedX = field.team2.get(0).speedX - 2;
+          this.speedY = field.team2.get(0).speedY - 2;
           this.x = field.team2.get(0).x - 2;
           this.y = field.team2.get(0).y - 2;
         }
@@ -55,4 +51,3 @@ public class Chaser extends Player{
       
     
 }
-
