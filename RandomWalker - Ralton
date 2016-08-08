@@ -1,0 +1,40 @@
+public class RandomWalker extends Player{
+  
+  public RandomWalker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+    super(f, side, name, number, team, symbol, x, y);
+    this.speedX = Math.random()*10-(10/2);
+    this.speedY = Math.random()*10-(10/2);
+  }
+  
+  
+  @Override
+  public void play(Field field){    
+    if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
+      this.speedY *= -1;
+    }
+    else if((this.x <= field.minX)||(this.x >= field.maxX - sprite.getWidth())){
+      this.speedX *= -1; 
+    }
+  }
+  
+  @Override
+  public  void update(Field field){}
+  
+  
+  @Override
+  protected void manageException(Field field){
+    if(this.x + this.speedX <= field.minX){
+      this.x = field.minX;
+    }
+    else if(this.y + this.speedY <= field.minY){
+      this.y = field.minY;
+    }
+    else if(this.x + sprite.getWidth() + this.speedX >= field.maxX){
+      this.x = field.maxX - sprite.getWidth();
+    }
+    else if(this.y + sprite.getHeight() + this.speedY >= field.maxY){
+      this.y = field.maxY - sprite.getHeight();
+    }
+  }
+  
+}
