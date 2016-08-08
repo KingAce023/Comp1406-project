@@ -1,0 +1,93 @@
+public class Catcher extends Player{
+  
+  private static int counter = 0;
+  
+  public Catcher(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+    super(f, side, name, number, team, symbol, x, y);
+    this.speedX = Math.random()*4-2;
+    this.speedY = Math.random()*4-2;
+  }
+  
+  @Override
+  public void play(Field field){
+    double targetX, targetY, rotation;
+
+    
+    if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
+      this.speedY *= -1;
+    }
+    if((this.x <= field.minX)||(this.x >= field.maxX - sprite.getWidth())){
+      this.speedX *= -1; 
+    }
+    
+    
+
+    
+    if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
+      
+      if(this.catchOpponent((Player)field.team2.get(counter),field)){
+        if(field.team2.size()-1 == counter){
+          counter = 0;
+        }
+        else
+        counter +=1;
+      }
+      
+      targetX = field.team2.get(counter).getX() - this.getX();
+      targetY = field.team2.get(counter).getY() - this.getY();
+      rotation = Math.atan2(targetY, targetX)*180/Math.PI;
+      
+      this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+      if(rotation < 0){
+        this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+      }
+      else{
+        this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+      }
+    }
+    
+    
+    else if ((field.getTeam.get(this)== 2)&&(!field.team1.isEmpty())){
+      
+      if(this.catchOpponent((Player)field.team1.get(counter),field)){
+        if(field.team1.size()-1 == counter){
+          counter = 0;
+        }
+        else
+        counter +=1;
+      }
+      
+      targetX = field.team1.get(counter).getX() - this.getX();
+      targetY = field.team1.get(counter).getY() - this.getY();
+      rotation = Math.atan2(targetY, targetX)*180/Math.PI;
+      
+      this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+      if(rotation < 0){
+        this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+      }
+      else{
+        this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+      }
+    }
+  }
+  
+  
+  @Override
+  public void update(Field field){}
+  
+  @Override
+  protected void manageException(Field field){
+    if(this.x + this.speedX <= field.minX){
+      this.x = field.minX;
+    }
+    else if(this.y + this.speedY <= field.minY){
+      this.y = field.minY;
+    }
+    else if(this.x + sprite.getWidth() + this.speedX >= field.maxX){
+      this.x = field.maxX - sprite.getWidth();
+    }
+    else if(this.y + sprite.getHeight() + this.speedY >= field.maxY){
+      this.y = field.maxY - sprite.getHeight();
+    }
+  }
+}
