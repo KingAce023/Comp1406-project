@@ -9,6 +9,12 @@
     @Override
     public void play(Field field){
       
+      if((this.x == field.minX)||(this.y == field.minY)||(this.x == field.maxX - sprite.getWidth())||(this.y == field.maxY - sprite.getWidth())){
+        this.speedX = 0;
+        this.speedY = 0;
+      }
+      
+ 
       if(field.getTeam.get(this)== 1){
         
         if((this.y > field.getFlag2Position()[1]) && (this.x > field.getFlag2Position()[0])){
@@ -48,8 +54,8 @@
           }
         }
       }
-      else if (field.getTeam.get(this)== 2){
-        
+      
+      else if (field.getTeam.get(this)== 2){        
         if((this.y > field.getFlag1Position()[1]) && (this.x > field.getFlag1Position()[0])){
           speedX = -1 *  (this.MAX_SPEED * Math.sin(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y))));
           speedY = -1 *  (this.MAX_SPEED * Math.cos(Math.atan((field.getFlag1Position()[0]-this.x)/(field.getFlag1Position()[1] - this.y))));
@@ -92,11 +98,22 @@
     
     
       @Override
-      public void update(Field field){
-        
+      public void update(Field field){}
+      
+      @Override
+      protected void manageException(Field field){
+        if(this.x + this.speedX < field.minX){
+          this.x = field.minX;
+        }
+        else if(this.y + this.speedY < field.minY){
+          this.y = field.minY;
+        }
+        else if(this.x + sprite.getWidth() + this.speedX > field.maxX){
+          this.x = field.maxX - sprite.getWidth();
+        }
+        else{
+          this.y = field.maxY - sprite.getHeight();
+        }
       }
       
-    
 }
-
-//Ralton
