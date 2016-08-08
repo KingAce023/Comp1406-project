@@ -8,45 +8,74 @@ public class Chaser extends Player{
     
     @Override
     public void play(Field field){
-      if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
-        if(this.y < field.team2.get(0).y){
-          speedX = (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
-          speedY = (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).x-this.x)/(field.team2.get(0).y  - this.y))));
-        }
-        else if(this.y > field.team2.get(0).y){
-          if(this.x > field.team2.get(0).x){
-            speedX = -(this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
-            speedY = -(this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
-          }
-            speedX = (this.MAX_SPEED * Math.cos(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
-            speedY = (this.MAX_SPEED * Math.sin(Math.atan((field.team2.get(0).y - this.y)/(field.team2.get(0).x - this.x))));
-        }
+      double targetX, targetY, rotation;
+
+      if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
+        this.speedY *= -1;
+      }
+      if((this.x <= field.minX)||(this.x >= field.maxX - sprite.getWidth())){
+        this.speedX *= -1; 
+      }
+      
+
+      if(this.catchOpponent((Player)field.team2.get(0),field)){
+        this.speedX = field.team2.get(0).speedX;
+        this.speedY = field.team2.get(0).speedY;
+        this.x = field.team2.get(0).x - 2;
+        this.y = field.team2.get(0).y - 2;
+        return;
+      }
+      
+      else if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
         
-        if(this.catchOpponent((Player)field.team2.get(0),field)){
-          this.speedX = field.team2.get(0).speedX - 2;
-          this.speedY = field.team2.get(0).speedY - 2;
-          this.x = field.team2.get(0).x - 2;
-          this.y = field.team2.get(0).y - 2;
+        targetX = field.team2.get(0).getX() - this.getX();
+        targetY = field.team2.get(0).getY() - this.getY();
+        rotation = Math.atan2(targetY, targetX)*180/Math.PI;
+        
+        this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+        if(rotation < 0){
+          this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+        }
+        else{
+          this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
         }
       }
-       
-       
+      
+      
       else if ((field.getTeam.get(this)== 2)&&(!field.team1.isEmpty())){
-        if((this.y > field.team1.get(0).y) || (this.x > field.team1.get(0).x)){
-          speedX = -1 *  (this.MAX_SPEED * Math.sin(Math.atan((field.team1.get(0).x - this.x)/(field.team1.get(0).y - this.y))));
-          speedY = -1 *  (this.MAX_SPEED * Math.cos(Math.atan((field.team1.get(0).x - this.x)/(field.team1.get(0).y - this.y))));
+        
+        targetX = field.team1.get(0).getX() - this.getX();
+        targetY = field.team1.get(0).getY() - this.getY();
+        rotation = Math.atan2(targetY, targetX)*180/Math.PI;
+        
+        this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+        if(rotation < 0){
+          this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
         }
-        else{  
-          speedX = this.MAX_SPEED * Math.sin(Math.atan((field.team1.get(0).x - this.x)/(field.team1.get(0).y - this.y)));
-          speedY = this.MAX_SPEED * Math.cos(Math.atan((field.team1.get(0).x - this.x)/(field.team1.get(0).y - this.y))); 
+        else{
+          this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
         }
       }
     }
     
     
     @Override
-    public void update(Field field){
-      
+    public void update(Field field){}
+    
+    @Override
+    protected void manageException(Field field){
+      if(this.x + this.speedX <= field.minX){
+        this.x = field.minX;
+      }
+      else if(this.y + this.speedY <= field.minY){
+        this.y = field.minY;
+      }
+      else if(this.x + sprite.getWidth() + this.speedX >= field.maxX){
+        this.x = field.maxX - sprite.getWidth();
+      }
+      else if(this.y + sprite.getHeight() + this.speedY >= field.maxY){
+        this.y = field.maxY - sprite.getHeight();
+      }
     }
       
     
