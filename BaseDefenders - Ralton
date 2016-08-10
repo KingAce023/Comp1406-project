@@ -18,13 +18,14 @@ public class BaseDefenders extends Player{
     @Override
     public void play(Field field){
       double targetX, targetY, rotation;
-      
+      //ISRAA USE THIS STARTING HERE
       if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
         this.speedY *= -1;
       }
       if((this.x <= field.minX)||(this.x + this.speedX >= (field.maxX/2) - (sprite.getWidth()/2))){
         this.speedX *= -1; 
       }
+      //END HERE
       
       if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
         
