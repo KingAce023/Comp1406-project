@@ -1,0 +1,9 @@
+# Comp1406-project
+Capture The Flag
+//This is documentation on how we will unify our code:
+
+//For the code that is not in the
+//specific players(Random Walker, Catcher...etc.).
+//We decided to use the professor's files (re-download to make sure we are all the same)
+//Then download Ose's code for Entity, Player and RandomWalker (copy paste his manageException to your specific players)
+//then delete the professor's files for Entity Player and RandomWalker (because now we have Ose's files).
