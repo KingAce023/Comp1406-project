@@ -1,0 +1,151 @@
+import java.util.Random;
+
+/** Worked with TA's, Prof, peers and my group for project. and google(stack overflow)
+  *
+  * COMP 1006/1406 - Summer 2016 - Assignment 5
+  * Comp 1406 Assignment #5 Problem#5 August 8 2016
+  * Soltan Al Shemari 100950549  August 8 2016
+  */
+//Chaser player will chase after a player on the opposing team(random walker).  If a player catches up
+//to  oppenent(RandomWalker), player will continue to follow it.
+
+
+public class Chaser extends Player{
+   
+  private double avgSpeed;  
+  protected static int counter =0;
+  
+  public Chaser(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+    super(f, side, name, number, team, symbol, x, y);
+    this.setSpeedX(Math.random()*10-2,this.id);
+     this.setSpeedY(Math.random()*10-2,this.id);
+    Random random = new Random();
+   //calculate speed of x and y based on a random double. to test all possible cases or as many as i can.
+    double tempSpeedX= (double)(-this.MAX_SPEED + (this.MAX_SPEED - (-this.MAX_SPEED)) * random.nextDouble()); 
+    double tempSpeedY = (double)(-this.MAX_SPEED + (this.MAX_SPEED - (-this.MAX_SPEED)) * random.nextDouble()); 
+
+   this.speedX = tempSpeedX;
+   this.speedY = tempSpeedY; 
+
+   double tempX =0.0;
+   double tempY =0.0;
+   if ((tempSpeedX)<0){
+     tempX=-tempSpeedX;
+   }
+   else{
+     tempX = tempSpeedX; 
+   }
+   if (tempSpeedY<0){
+     tempY=-tempSpeedY;
+     
+   }
+   else{
+     tempY=tempSpeedY; 
+   }
+   
+   this.avgSpeed = (tempY+tempX)/2;
+
+  }
+  
+  
+  
+//Purpose:make a player Chase opponent on the other team
+// will return nothing
+// input: Field field
+// output: none ovid
+// side effects:chase opponent if it catches it, player will follow opponent.
+    public void play(Field field){
+      
+      
+      if (this.speedX+this.x+this.sprite.getWidth() >= field.maxX ){
+        this.speedX=-this.speedX; 
+    }
+    if (this.speedX+this.x <= field.minX){
+      this.speedX=-this.speedX;
+    }
+    if (this.speedY+this.y+this.sprite.getHeight() >= field.maxY){
+      this.speedY=-this.speedY;
+    }
+    if (this.speedY+this.y <= field.minY){
+
+      this.speedY=-this.speedY; 
+    }    
+      
+      
+  /*    if(field.getTeam.get(this) == 1){
+        
+      double newX = field.getTeam2().get(0).x - this.x;
+      
+      double newY =  field.getTeam2().get(0).y - this.y;
+      double speedX = Math.sin(Math.atan2(newX,newY))*this.avgSpeed;
+      double speedY = Math.cos(Math.atan2(newX,newY))*this.avgSpeed;
+      this.setSpeedX(speedX, this.id);
+      this.setSpeedY(speedY, this.id);
+      
+     if (this.catchOpponent((Player) field.getTeam2().get(0), field)){
+       
+        this.setSpeedX( field.getTeam2().get(0).speedX, this.id);
+        this.setSpeedY(field.getTeam2().get(0).speedY, this.id);
+     }
+        
+    }*/
+         
+    if (field.getTeam.get(this) == 2 && (!inJail((Player)field.getTeam1().get(counter), field))){
+      double newX = field.getTeam1().get(counter).x - this.x;
+      double newY =field.getTeam1().get(counter).y - this.y;
+
+      double speedX = Math.sin(Math.atan2(newX,newY))*this.avgSpeed;
+      double speedY = Math.cos(Math.atan2(newX,newY))*this.avgSpeed;
+    
+      this.setSpeedX(speedX, this.id);
+      this.setSpeedY(speedY, this.id);
+     
+     if (this.catchOpponent((Player)field.getTeam1().get(counter), field)){
+        this.setSpeedX(field.getTeam1().get(counter).speedX, this.id);
+        this.setSpeedY(field.getTeam1().get(counter).speedY, this.id);
+     }
+       
+   }
+    if(inJail((Player)field.getTeam1().get(counter), field)){
+         counter++;
+    }  
+       if (counter == field.getTeam1().size()){
+          counter=0;}
+    
+     
+  }
+      
+//    }
+//Purpose: update entity for any changes to it 
+// will return nothing
+// input: Field field
+// output: none ovid
+// side effects:if this entity is moved by another entity, this entity's  positions need to be updated.
+    
+    @Override
+    public void update(Field field){
+      
+    }
+      
+//Purpose: handles exception when ball is out of bounds
+// will return nothing
+// input: Field field
+// output: none
+// side effects:manages exception for when the ball is out of bounds an entity is throw an exception out of bounds 
+//so it handles it
+
+     protected  void manageException(Field field){
+       if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+         this.setX(field.maxX - this.sprite.getWidth(), this.id);
+       }
+   if(this.x+this.sprite.getWidth() + this.speedX < field.minX + this.sprite.getWidth()){ 
+       this.setX(field.minX , this.id);
+   }
+   if(this.y+ (this.sprite.getHeight())+this.speedY >field.maxY){
+         this.setY(field.maxY - this.sprite.getHeight(), this.id);
+       }
+   if(this.y+this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){ 
+       this.setY(field.minY , this.id);
+   }
+}
+}
