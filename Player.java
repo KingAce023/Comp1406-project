@@ -60,7 +60,16 @@ public abstract class Player extends Entity{
     return field.catchOpponent(this, opponent);
   }
   
-
+  public boolean hasBeenCaught(Player opposition,Field field){
+    if( this.getTeam().equals(opposition.getTeam()) ){
+      return false;
+    }
+    if( Math.hypot( this.getX() - opposition.getX(), this.getY() - opposition.getY() ) <= field.ARMS_LENGTH ){
+      return true;
+    }
+    return false;
+  }
+  
 
   /** Informs this player that they have been caught by another player. 
     * <p>
@@ -128,47 +137,6 @@ public abstract class Player extends Entity{
     
   }
   
-  public boolean goingToCatch(Player ChaserPlayer, Player opponent){
-    double chaserSpeedX = 0;
-    double chaserSpeedY = 0;
-    
-    double xOfOpponent = opponent.getX();
-    double yOfOpponent = opponent.getY();
-    
-    double xDifference = opponent.getX() - ChaserPlayer.x;
-    double yDifference = opponent.getY() - ChaserPlayer.y;
-      
-    double xSpeed = Math.abs(Math.cos(Math.atan(yDifference / xDifference))) * MAX_SPEED;
-    double ySpeed = Math.abs(Math.sin(Math.atan(yDifference / xDifference))) * MAX_SPEED;
-    
-    if(xOfOpponent < ChaserPlayer.x){
-        chaserSpeedX = -xSpeed;
-      }
-      if(xOfOpponent > ChaserPlayer.x){
-        chaserSpeedX = xSpeed;
-      }
-      
-      if(yOfOpponent < ChaserPlayer.y){
-        chaserSpeedY = -ySpeed;
-      }
-      if(yOfOpponent > ChaserPlayer.y){
-        chaserSpeedY = ySpeed;
-      }
-    
-    if(ChaserPlayer.speedX == chaserSpeedX && ChaserPlayer.speedY == chaserSpeedY){
-      return true;
-    }
-    return false;
-  }
-  
-//  public boolean pickedUpFlag(Field field){
-//    if(pickUpFlag(field)){
-//      return true;
-//    }
-//    return false;
-//  }
-  
-  
   /** Informs this player that they have dropped the flag
     * <p>
     * This method should only be called from within the Field class.  
@@ -193,16 +161,23 @@ public abstract class Player extends Entity{
     return field.winGame(this);
   }
   
+  public boolean inJail2(Player lol,Field field){
+    if( Math.hypot( lol.getX() - field.getJail2Position()[0], lol.getY() - field.getJail2Position()[1] ) <= field.ARMS_LENGTH ){
+      return true;
+    }
+    return false;
+  }
   
-  /* Handles exception when caught by update() method 
-   * in entity.
-   * Exception is handled here by updating the position
-   * of the entity according the type of entity,  that is,
-   * each player class will define its own manageExcepton
-   */
-  protected abstract void manageException(Field field);
+  public boolean inJail1(Player lol,Field field){
+    if( Math.hypot( lol.getX() - field.getJail1Position()[0], lol.getY() - field.getJail1Position()[1] ) <= field.ARMS_LENGTH ){
+      return true;
+    }
+    return false;
+  }
   
-  
+
+ protected abstract void manageException(Field field);   
+   
   
   
 }
