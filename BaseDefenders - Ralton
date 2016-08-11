@@ -15,59 +15,49 @@ public class BaseDefenders extends Player{
     
   }
    
-    @Override
-    public void play(Field field){
-      double targetX, targetY, rotation;
-      //ISRAA USE THIS STARTING HERE
-      if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
-        this.speedY *= -1;
-      }
-      if((this.x <= field.minX)||(this.x + this.speedX >= (field.maxX/2) - (sprite.getWidth()/2))){
-        this.speedX *= -1; 
-      }
-      //END HERE
-      
-      if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
-        
-//        for(int i = 0; i<field.getTeam2().size() - 1; i+=1){
-//          if(field.getTeam2().get(i).getX() <= 405){
-//            tracker = i;
-//            opponentBase = true;
-          
-        
-        
-        if(field.getTeam2().get(tracker).getX() <= 405){
-          targetX = field.team2.get(tracker).getX() - this.getX();
-          targetY = field.team2.get(tracker).getY() - this.getY();
-          rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
-          
-          this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
-          if(rotation < 0){
-            this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
-          }
-          else{
-            this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
-          }
-          
-          if(this.catchOpponent((Player)field.team2.get(tracker),field)){
-          this.speedX = field.team2.get(tracker).speedX;
-          this.speedY = field.team2.get(tracker).speedY;
-//          this.x = field.team2.get(tracker).x - 4;
-          //this.y = field.team2.get(tracker).y - 4;
-          }
-          
-        } else{
+   @Override
+   public void play(Field field){
+     double targetX, targetY, rotation;
+     
+     if((this.y <= field.minY)||(this.y >= field.maxY - sprite.getHeight())){
+       this.speedY *= -1;
+     }
+     if((this.x <= field.minX)||(this.x + this.speedX >= (field.maxX/2) - sprite.getWidth()/2)){
+       this.speedX *= -1; 
+     }
+     
+     if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
+       
+       if((field.getTeam2().get(tracker).getX() <= 405)&&(!inJail1((Player)field.team2.get(tracker),field))){
+         targetX = field.team2.get(tracker).getX() - this.getX();
+         targetY = field.team2.get(tracker).getY() - this.getY();
+         rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
+         
+         this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+         if(rotation < 0){
+           this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+         }
+         else{
+           this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+         }
+         
+         if(this.catchOpponent((Player)field.team2.get(tracker),field)){
+           this.speedX = field.team2.get(tracker).speedX;
+           this.speedY = field.team2.get(tracker).speedY;
+           
+           if((this.x <= field.minX)||(this.x + this.speedX >= (field.maxX/2) - sprite.getWidth()/2)){
+             this.speedX *= -1; 
+           }
+         }
+       }
+       else{
          tracker++; 
-        }
-        if(field.team2.size() == tracker){
+       }
+       if(field.team2.size() == tracker){
          tracker=0; 
-        }
-      }
-//        if((field.getTeam2().get(tracker).getX() >= 405)){
-//          this.speedX = ;
-//          this.speedY = 0;
-//          opponentBase = false;
-        }
+       }
+     }
+   }
        
       
     
