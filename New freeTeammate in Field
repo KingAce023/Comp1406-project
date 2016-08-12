@@ -1,0 +1,15 @@
+public boolean freeTeammate(Player a, Player b){
+    //
+    // need to add some code here
+    //
+    
+    if(a.getTeam().equals(b.getTeam()) && a.id != b.id){
+      
+      if( Math.hypot( a.getX() - b.getX(), a.getY() - b.getY() ) <= ARMS_LENGTH ){
+      return true;
+      }
+      
+    }
+    
+    return false;
+  }
