@@ -1,6 +1,6 @@
 # Comp1406-project
 Capture The Flag
-WE ARE USING RALTONS PLAYER!!!!!
+WE ARE USING RALTONS PLAYER!!!!! // UPDATE: WE ARE USING THE UNIFIED PLAYER BY OSE.
 //This is documentation on how we will unify our code:
 
 //For the code that is not in the
@@ -15,4 +15,5 @@ WE ARE USING RALTONS PLAYER!!!!!
 //Ose-->Can you upload your Field file, just so that we are all sure that we are dealing with the same files? Thanks.
 
 // UPDATE: Ose has uploaded his Field, we will download it along with Entity, RandomWalker and Player.
+//UPDATE: You will need the WinGame method from Esra'a's Field.
 
