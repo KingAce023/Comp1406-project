@@ -1,0 +1,116 @@
+public class Jailbreaker extends Player{
+  
+  //check if opponents jail is empty, if it is roam around
+  //else  go to enemys jail free team mate. , if caught go to jail, if freed return to base.
+  //else free teammate
+  
+  //if someone is in jail go to enenmys jail.
+  protected static int i=0;
+  public void play(Field field){
+    
+     
+    
+    double targetX, targetY, rotation;
+    if (field.getTeam.get(this) == 1){
+      
+      if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+      this.speedX = -this.speedX;
+    }
+    if(this.x+this.sprite.getWidth() + this.speedX< field.minX + this.sprite.getWidth()){ 
+      this.speedX = -this.speedX;
+    }
+   if (this.y + this.speedY + this.sprite.getHeight() > field.maxY){
+      this.speedY = -this.speedY;
+    }
+    if (this.y + this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){
+      this.speedY= - this.speedY;
+    }
+     //if this player is in jail go to jail
+      if (inJail((Player)field.getTeam1().get(i), field)){
+        targetX = field.getJail2Position()[0] - this.getX();
+        targetY = field.getJail2Position()[1] - this.getY();
+        rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
+          
+          this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+          if(rotation < 0){
+            this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+          }
+          else{
+            this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+          }
+      }
+      else{
+        i++;
+      }
+      
+//      if (inJail(this, field)){
+//         i++;
+//      }
+          if (i == field.getTeam1().size()){
+         
+         i=0;
+         
+          }
+    }
+  }
+    
+       // if(field.getJail2Position()[0] <this.x){
+        //    this.setSpeedX(-this.speedX,this.id);
+        //  this.setSpeedY(-this.speedY,this.id);}
+    
+       
+// if (this.catchOpponent((Player) field.getTeam1().get(0), field)){    
+//      this.speedX = Math.random()*10-2;
+//   this.speedY = Math.random()*10-2;
+// }
+//    if (field.freeTeammate(this,(Player)field.getTeam1().get(i))){
+//         
+//       field.getTeam1().get(i).setSpeedX(MAX_SPEED,field.getTeam1().get(i).id);
+//       field.getTeam1().get(i).setSpeedY(MAX_SPEED,field.getTeam1().get(i).id);
+//       }
+
+   
+ /*    if (field.getTeam.get(this) == 2){
+    for(int i = 0; i < field.getTeam2().size();i++){
+      if (field.getTeam2().get(i).x == field.jail1.getX() && field.getTeam2().get(i).y == field.jail1.getY() && field.getTeam2().get(i).speedX == 0){
+       this.setSpeedX(Math.cos(Math.atan((field.getJail1Position()[1] - this.y)/(field.getJail1Position()[0]-this.x)))*MAX_SPEED,this.id);
+       this.setSpeedY(Math.sin(Math.atan((field.getJail1Position()[1] - this.y)/(field.getJail1Position()[0]-this.x)))*MAX_SPEED,this.id);
+            if (field.freeTeammate(this,(Player)field.getTeam1().get(i))){
+         
+       field.getTeam2().get(i).setSpeedX(MAX_SPEED,this.id);
+       field.getTeam2().get(i).setSpeedY(MAX_SPEED,this.id);
+       }
+    //getJail1Position()  getJail2Position() returns return new int[]{ jail2.getX(), jail2.getY()
+  }
+    }
+  }
+  
+    if (this.y + this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){
+      this.speedY= - this.speedY;
+}*/
+  
+  
+  public Jailbreaker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+     super(f,side,name,number,team,symbol, x, y);
+      this.speedX = Math.random()*10-2;
+      this.speedY = Math.random()*10-2;
+   }
+  
+  public void update(Field field){
+  }
+  
+  protected  void manageException(Field field){
+       if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+         this.setX(field.maxX - this.sprite.getWidth(), this.id);
+       }
+   if(this.x+this.sprite.getWidth() + this.speedX < field.minX + this.sprite.getWidth()){ 
+       this.setX(field.minX , this.id);
+   }
+   if(this.y+ (this.sprite.getHeight())+this.speedY >field.maxY){
+         this.setY(field.maxY - this.sprite.getHeight(), this.id);
+       }
+   if(this.y+this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){ 
+       this.setY(field.minY , this.id);
+   }
+}
+}
