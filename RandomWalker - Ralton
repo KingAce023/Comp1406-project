@@ -2,6 +2,8 @@ public class RandomWalker extends Player{
   protected static int tracker1 = 0;
   protected static int tracker2 = 0;
   protected static int freeTracker1 = 0;
+  protected  boolean ifInJail = false;
+  protected  boolean hasBeenCaught = false;
 
   
   public RandomWalker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
@@ -47,15 +49,12 @@ public class RandomWalker extends Player{
         if(field.team2.size() == tracker1){
           tracker1 = 0; 
         }
-        
-        
       }
       
       if(this.hasBeenCaught((Player)field.team2.get(tracker1),field) && inJail2(this,field)){
         ifInJail=true;
       }
-    
-      
+
       if(ifInJail){
         this.setSpeedX(0,this.id);
         this.setSpeedY(0,this.id);
@@ -94,18 +93,27 @@ public class RandomWalker extends Player{
       
       if(this.hasBeenCaught((Player)field.team1.get(tracker2),field) && inJail1(this,field)){
         ifInJail=true;
+        this.chased = false;
       }
       
       if(ifInJail){
         this.setSpeedX(0,this.id);
         this.setSpeedY(0,this.id);
-        
-        return;
+      }
+      
+      if(field.freeTeammate((Player)field.team2.get(tracker1), this) && inJail1(this,field)){
+        ifInJail = false;
+        this.setSpeedX(5,this.id);
+        this.setSpeedY(5,this.id);
       }
       else{
-        return;
-      }
+        tracker1 +=1; 
+        if(field.team2.size() == tracker1){
+          tracker1=0;
+        }
+
     }
+  }
   }
 
 
