@@ -211,9 +211,16 @@ public abstract class Player extends Entity{
     * @param field is the field the game is being played on
     * @return true if this player successfully brings the opponent's flag back to this player's base, false otherwise 
     */
-  public final boolean winGame(Field field){
-    return field.winGame(this);
-  }
+    *******************************************UPDATED BY ESRAA, COMMENTED OUT OLD WINGAME AND ADDED NEW**********************
+ //public final boolean winGame(Field field){
+ //   return field.winGame(this);
+ // } 
+ //--------------------------THIS IS THE CORRECT WINGAME----------------------
+  public final boolean winGame(Field field,String colour){
+      return field.winGame(this,colour);
+    }
+    //----------------------------------------------------------------------
+    ****************************************************END OF ESRA'A'S UPDATE*********************************************
   
   
   /* Handles exception when caught by update() method 
