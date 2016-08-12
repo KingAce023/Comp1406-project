@@ -1,6 +1,8 @@
 public class RandomWalker extends Player{
-  protected static int tracker = 0;
-  boolean ifInJail =false;
+  protected static int tracker1 = 0;
+  protected static int tracker2 = 0;
+  protected static int freeTracker1 = 0;
+
   
   public RandomWalker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
     super(f, side, name, number, team, symbol, x, y);
@@ -20,13 +22,56 @@ public class RandomWalker extends Player{
       this.speedX *= -1; 
     }
     
-
-
     
-    if((field.getTeam.get(this)== 2)&&(!field.team1.isEmpty())){
+    
+    
+    if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
       
-      if(this.hasBeenCaught((Player)field.team1.get(tracker),field)){
-             
+      if(this.hasBeenCaught((Player)field.team2.get(tracker1),field)){
+        
+        hasBeenCaught = true;
+        targetX = field.getJail2Position()[0] - this.getX();
+        targetY = field.getJail2Position()[1] - this.getY();
+        rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
+        
+        this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+        if(rotation < 0){
+          this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+        }
+        else{
+          this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+        }
+      }
+      else{
+        tracker1 +=1;
+        if(field.team2.size() == tracker1){
+          tracker1 = 0; 
+        }
+        
+        
+      }
+      
+      if(this.hasBeenCaught((Player)field.team2.get(tracker1),field) && inJail2(this,field)){
+        ifInJail=true;
+      }
+    
+      
+      if(ifInJail){
+        this.setSpeedX(0,this.id);
+        this.setSpeedY(0,this.id);
+        
+        return;
+      }
+      else{
+        return;
+      }
+    }
+     
+    
+    else if((field.getTeam.get(this)== 2)&&(!field.team1.isEmpty())){
+      
+      if(this.hasBeenCaught((Player)field.team1.get(tracker2),field)){
+        
         targetX = field.getJail1Position()[0] - this.getX();
         targetY = field.getJail1Position()[1] - this.getY();
         rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
@@ -40,32 +85,31 @@ public class RandomWalker extends Player{
         }
       }
       else{
-        tracker +=1;
-        if(field.team1.size() == tracker){
-          tracker=0; 
+        tracker2 +=1;
+        if(field.team1.size() == tracker2){
+          tracker2 = 0; 
         }
       }
       
-//      if((!this.hasBeenCaught((Player)field.team1.get(tracker),field))&&(inJail1(this,field))){
-//        this.speedX = 0;
-//        this.speedY = 0;
-//        return;
-//      }
+      
+      if(this.hasBeenCaught((Player)field.team1.get(tracker2),field) && inJail1(this,field)){
+        ifInJail=true;
+      }
+      
+      if(ifInJail){
+        this.setSpeedX(0,this.id);
+        this.setSpeedY(0,this.id);
+        
+        return;
+      }
+      else{
+        return;
+      }
     }
- 
-    if(this.hasBeenCaught((Player)field.team1.get(tracker),field) && inJail1(this,field)){
-      ifInJail=true;
-   
-    }
-       if(ifInJail){
-      this.setSpeedX(0,this.id);
-      this.setSpeedY(0,this.id);
-       
-      return;
   }
-    else{
-      return;}
-  }
+
+
+
   
   @Override
   public  void update(Field field){}
