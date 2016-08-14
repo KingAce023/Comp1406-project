@@ -1,0 +1,130 @@
+public class Jailbreaker2 extends Player{
+ 
+   // bounces off walls
+    //if this player is in jail go to jail
+  // new randomwalker free ppl if close by and not in jail,  amke jailbreaker for team2.
+  //check if a player is in jail
+  static int counter =0;
+  static int counter2 = 0;
+  boolean isInJail=false;
+   public Jailbreaker2(Field f, int side, String name, int number, String team, char symbol, double x, double y){
+    super(f,side,name,number,team,symbol, x, y);
+    this.speedX = Math.random()*10-2;
+    this.speedY = Math.random()*10-2;
+    this.isInJail =false;
+  }
+  
+  public void update(Field field){}
+  
+  public void play(Field field){
+  //check if opponents jail is empty, if it is roam around
+  //else  go to enemys jail free team mate. , if caught go to jail, if freed return to base.
+  //else free teammate
+  //if someone is in jail go to enenmys jail.
+      double targetX, targetY, rotation;
+//check if someone is in jail -> if it is go to jail and free them. 
+     
+      //bounces of walls
+     if(this.x+ (this.sprite.getWidth())+this.speedX >field.maxX){
+        this.speedX = -this.speedX;
+      }
+      if(this.x+this.sprite.getWidth() + this.speedX< field.minX + this.sprite.getWidth()){ 
+        this.speedX = -this.speedX;
+      }
+      if (this.y + this.speedY + this.sprite.getHeight() > field.maxY){
+        this.speedY = -this.speedY;
+      }
+      if (this.y + this.sprite.getHeight() + this.speedY < field.minY + this.sprite.getHeight()){
+        this.speedY= - this.speedY;
+      }
+      
+      //this checks if a player is in jail2 and is within arms length at counter and if their speed is 0 at x.
+      //set traget to jail x and y. find the angle and use the roation for a factor of speed.
+      
+       if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
+  if(inJail2((Player)field.getTeam1().get(counter), field) && field.getTeam1().get(counter).speedX==0){
+    isInJail=true;
+      targetX = field.getJail2Position()[0] - this.getX();
+      targetY = field.getJail2Position()[1] - this.getY();
+      rotation = Math.atan2(targetY, targetX)*180/Math.PI;  
+      this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+      if(rotation < 0){
+          this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+        }
+        else{
+          this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+        }
+      }
+  //look through team to see if anyone is in jail
+  else{
+       counter++;
+  if (counter == field.getTeam1().size()){
+        counter=0; 
+      }
+      }
+    
+  //if jailbreaker is caught by red team 0 then set target x and y to jail.
+   if(this.hasBeenCaught((Player)field.team2.get(0),field)){
+     this.isInJail=true;
+     targetX = field.getJail2Position()[0] - this.getX();
+        targetY = field.getJail2Position()[1] - this.getY();
+        rotation = Math.atan2(targetY, targetX)*180/Math.PI; 
+        
+        this.speedX = this.MAX_SPEED *(90 - Math.abs(rotation))/90;
+        if(rotation < 0){
+          this.speedY = -(this.MAX_SPEED) + (Math.abs(this.speedX));
+        }
+        else{
+          this.speedY = this.MAX_SPEED - Math.abs(this.speedX);
+        }
+      }
+ 
+   //this checks if jailbreaker is in jail2 and is within arms length set speed 0.
+  if(inJail2(this, field) && this.isInJail){
+      this.speedX = 0;
+      this.speedY = 0;
+      this.setX( field.getJail2Position()[0],this.id);
+      this.setY( field.getJail2Position()[1],this.id);
+      }
+  else{
+    this.isInJail=false;
+  }
+   
+//    if( Math.hypot(this.getX() - field.getJail2Position()[0], this.getY() - field.getJail2Position()[1] ) <= field.ARMS_LENGTH && this.hasBeenCaught((Player)field.team2.get(0),field)){
+//      this.speedX = 0;
+//      this.speedY = 0;}
+//   this.speedY = Math.random()*10-2;
+// }
+//     else{
+//       counter2++;
+//  if (counter2 == field.getTeam1().size()){
+//        counter2=0; 
+//      }
+    
+   //if(this.isInJail == false){
+  if (field.freeTeammate(this,(Player)field.getTeam1().get(counter)) &&!this.hasBeenCaught((Player)field.team2.get(0),field) && this.speedX >0 ){ //&& !this.isInJail&& isInJail){
+       field.getTeam1().get(counter).setSpeedX(MAX_SPEED,field.getTeam1().get(counter).id);
+       field.getTeam1().get(counter).setSpeedY(MAX_SPEED,field.getTeam1().get(counter).id);
+       isInJail=false;
+    }
+       }
+      }
+  //}
+  
+  
+
+    protected void manageException(Field field){
+    if(this.x + this.speedX < field.minX){
+      this.x = field.minX;
+    }
+    else if(this.y + this.speedY < field.minY){
+      this.y = field.minY;
+    }
+    else if(this.x + sprite.getWidth() + this.speedX > field.maxX){
+      this.x = field.maxX - sprite.getWidth();
+    }
+    else{
+      this.y = field.maxY - sprite.getHeight();
+    }
+  }
+}
