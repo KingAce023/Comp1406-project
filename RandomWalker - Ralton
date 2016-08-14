@@ -1,9 +1,10 @@
 public class RandomWalker extends Player{
   protected static int tracker1 = 0;
-  protected static int tracker2 = 0;
+  protected  int tracker2 = 0;
   protected static int freeTracker1 = 0;
   protected  boolean ifInJail = false;
   protected  boolean hasBeenCaught = false;
+  //protected boolean 
 
   
   public RandomWalker(Field f, int side, String name, int number, String team, char symbol, double x, double y){
@@ -23,12 +24,8 @@ public class RandomWalker extends Player{
     else if((this.x <= field.minX)||(this.x >= field.maxX - sprite.getWidth())){
       this.speedX *= -1; 
     }
-    
-    
-    
-    
+     
     if((field.getTeam.get(this)== 1)&&(!field.team2.isEmpty())){
-      
       if(this.hasBeenCaught((Player)field.team2.get(tracker1),field)){
         
         hasBeenCaught = true;
@@ -69,6 +66,8 @@ public class RandomWalker extends Player{
     
     else if((field.getTeam.get(this)== 2)&&(!field.team1.isEmpty())){
       
+    //  System.out.println("Players id : " + this.id);
+    //  System.out.println("Have I been caught(RED) : " + this.hasBeenCaught((Player)field.team1.get(tracker2),field));
       if(this.hasBeenCaught((Player)field.team1.get(tracker2),field)){
         
         targetX = field.getJail1Position()[0] - this.getX();
@@ -89,11 +88,20 @@ public class RandomWalker extends Player{
           tracker2 = 0; 
         }
       }
-      
-      
+
       if(this.hasBeenCaught((Player)field.team1.get(tracker2),field) && inJail1(this,field)){
+        System.out.println("Enter here 1");
         ifInJail=true;
-        this.chased = false;
+        ((Player)field.team1.get(tracker2)).chasing = false;
+        ((Player)field.team1.get(tracker2)).idTracker = -1;
+        this.beingChased = false;
+      }
+      
+      if(this.x > 405){
+        this.beingChased = false;
+        System.out.println("Enter here 2");
+        ((Player)field.team1.get(tracker2)).chasing = false;
+        ((Player)field.team1.get(tracker2)).idTracker = -1;
       }
       
       if(ifInJail){
